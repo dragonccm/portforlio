@@ -47,6 +47,15 @@ const ExperienceCard = ({ experience }) => (
         style={{ margin: 0 }}>
         {experience.company_name}
       </p>
+      <ul className="mt-4 list-disc ml-5 space-y-2">
+        {experience.points.map((point, i) => (
+          <li
+            key={i}
+            className="text-dim text-[14px] font-poppins tracking-wider leading-[22px]">
+            {point}
+          </li>
+        ))}
+      </ul>
     </div>
   </VerticalTimelineElement>
 );

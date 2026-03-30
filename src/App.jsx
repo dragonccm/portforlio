@@ -7,13 +7,15 @@ import {
   Navbar,
   Tech,
   Projects,
+  ClientWork,
+  BackToTop,
 } from './components';
 
 const App = () => {
   return (
     <BrowserRouter>
-      <div className="relative z-0">
-        <div>
+      <div className="relative z-0 overflow-hidden">
+        <div className="bg-hero bg-cover bg-center bg-no-repeat">
           <Navbar />
           <Hero />
         </div>
@@ -28,6 +30,10 @@ const App = () => {
 
         <Projects />
 
+        <div className="bg-tech bg-cover bg-center bg-no-repeat pb-10">
+          <ClientWork />
+        </div>
+
         <div
           className="bg-experience bg-cover bg-center bg-no-repeat 
             rounded-tl-[150px] rounded-br-[150px]">
@@ -40,6 +46,8 @@ const App = () => {
         <div className="relative z-0">
           <Contact />
         </div>
+
+        <BackToTop />
       </div>
     </BrowserRouter>
   );

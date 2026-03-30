@@ -37,13 +37,13 @@ const About = () => {
       <motion.p
         variants={fadeIn('', '', 0.1, 1)}
         className="mt-4 text-taupe text-[18px] max-w-3xl leading-[30px]">
-        As an Information Technology student, I am passionate about exploring
-        cutting-edge technologies and solving complex problems. My academic
-        journey has equipped me with a strong foundation in programming, software
-        development, and system design. I am particularly interested in fields
-        such as artificial intelligence, web development, and cybersecurity.
-        With a commitment to continuous learning and innovation, I aim to
-        contribute to impactful projects and grow into a skilled IT professional.
+        With over 2 years of experience in website design and frontend
+        development, I specialize in building high-quality web applications for
+        blockchain, DeFi, crypto, and fintech projects. I have designed and
+        delivered 60+ websites — from investment platforms and trading dashboards
+        to meme token landing pages. I also leverage n8n automation to
+        streamline workflows and business processes. My focus is on creating
+        visually appealing, performant, and user-friendly digital experiences.
       </motion.p>
 
       <div className="mt-20 flex flex-wrap gap-10">
