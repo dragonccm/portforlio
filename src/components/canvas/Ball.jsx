@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Component, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import {
   Decal,
@@ -35,16 +35,49 @@ const Ball = (props) => {
   );
 };
 
-const BallCanvas = ({ icon }) => {
-  return (
-    <Canvas frameloop="always" gl={{ preserveDrawingBuffer: true }}>
-      <Suspense fallback={<Loader />}>
-        <OrbitControls enableZoom={false} position0={0} />
-        <Ball imgUrl={icon} />
-      </Suspense>
+// Checked once: browsers with WebGL disabled or out of contexts make the
+// Canvas throw, which would otherwise unmount the whole page.
+const webglAvailable = (() => {
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(canvas.getContext('webgl2') || canvas.getContext('webgl'));
+  } catch {
+    return false;
+  }
+})();
 
-      <Preload all />
-    </Canvas>
+const StaticIcon = ({ icon }) => (
+  <div className="w-full h-full rounded-full bg-[#3d3d3d] flex items-center justify-center">
+    <img src={icon} alt="" className="w-1/2 h-1/2 object-contain" />
+  </div>
+);
+
+class CanvasErrorBoundary extends Component {
+  state = { failed: false };
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  render() {
+    return this.state.failed ? this.props.fallback : this.props.children;
+  }
+}
+
+const BallCanvas = ({ icon }) => {
+  if (!webglAvailable) return <StaticIcon icon={icon} />;
+
+  return (
+    <CanvasErrorBoundary fallback={<StaticIcon icon={icon} />}>
+      <Canvas frameloop="always" gl={{ preserveDrawingBuffer: true }}>
+        <Suspense fallback={<Loader />}>
+          <OrbitControls enableZoom={false} position0={0} />
+          <Ball imgUrl={icon} />
+        </Suspense>
+
+        <Preload all />
+      </Canvas>
+    </CanvasErrorBoundary>
   );
 };
 
