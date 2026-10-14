@@ -43,6 +43,11 @@ import dcc from './company/dcc.png';
 import kelhel from './company/kelhel.png';
 import microverse from './company/microverse.png';
 
+import komikult from './projects/komikult.png';
+import leaderboard from './projects/leaderboard.png';
+import math from './projects/math-magicians.png';
+import movie from './projects/movie-metro.png';
+import nyeusi from './projects/nyeusi.png';
 import luutaShot from './projects/luuta.webp';
 import goctruyenShot from './projects/goctruyen.webp';
 import projectManagerShot from './projects/project-manager.webp';
@@ -88,6 +93,11 @@ export {
   redux,
   tailwind,
   typescript,
+  komikult,
+  leaderboard,
+  math,
+  movie,
+  nyeusi,
   luutaShot,
   goctruyenShot,
   projectManagerShot,
