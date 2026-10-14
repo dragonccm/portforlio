@@ -9,7 +9,9 @@ const SectionWrapper = (Component, idName) => {
         variants={staggerContainer()}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: false, amount: 0.25 }}
+        // 'some' rather than a fraction: on phones a long section can be
+        // many screens tall and would never reach e.g. 25% visible.
+        viewport={{ once: true, amount: 'some' }}
         className={`${styles.padding} max-w-7xl mx-auto relative z-0`}>
         <span className="hash-span" id={idName}>
           &nbsp;

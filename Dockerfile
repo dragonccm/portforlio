@@ -1,4 +1,5 @@
-# Multi-stage Dockerfile for the Vite static build, served by nginx
+# Multi-stage Dockerfile: Vite build, then a dependency-free Node server
+# that serves the site and the contact endpoint (Gmail + Telegram).
 FROM node:22-bookworm-slim AS builder
 
 WORKDIR /app
@@ -11,14 +12,21 @@ COPY . .
 RUN npm run build
 
 # Runner stage
-FROM nginx:1.27-alpine AS runner
+FROM node:22-alpine AS runner
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/dist /usr/share/nginx/html
+WORKDIR /app
 
-EXPOSE 80
+ENV NODE_ENV=production
+ENV PORT=3000
+
+COPY --from=builder /app/dist ./dist
+COPY server ./server
+
+EXPOSE 3000
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-  CMD wget -q --spider http://127.0.0.1:80/ || exit 1
+  CMD wget -q --spider http://127.0.0.1:3000/api/health || exit 1
 
-CMD ["nginx", "-g", "daemon off;"]
+USER node
+
+CMD ["node", "server/index.mjs"]

@@ -43,12 +43,14 @@ import dcc from './company/dcc.png';
 import kelhel from './company/kelhel.png';
 import microverse from './company/microverse.png';
 
-import komikult from './projects/komikult.png';
-import leaderboard from './projects/leaderboard.png';
-import math from './projects/math-magicians.png';
-import movie from './projects/movie-metro.png';
-import nyeusi from './projects/nyeusi.png';
-import space from './projects/space-hub.png';
+import luutaShot from './projects/luuta.webp';
+import goctruyenShot from './projects/goctruyen.webp';
+import projectManagerShot from './projects/project-manager.webp';
+import fundTrackerShot from './projects/fund-tracker.webp';
+import bachDangShot from './projects/bach-dang.webp';
+import wtfFoodShot from './projects/wtf-food.webp';
+import vinhomesShot from './clients/vinhomes-ha-long.webp';
+import vinafishShot from './clients/vinafish.webp';
 
 export {
   bwmap,
@@ -86,12 +88,14 @@ export {
   redux,
   tailwind,
   typescript,
-  komikult,
-  leaderboard,
-  math,
-  movie,
-  nyeusi,
-  space,
+  luutaShot,
+  goctruyenShot,
+  projectManagerShot,
+  fundTrackerShot,
+  bachDangShot,
+  wtfFoodShot,
+  vinhomesShot,
+  vinafishShot,
   coverhunt,
   dcc,
   kelhel,

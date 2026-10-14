@@ -2,3 +2,5 @@ node_modules
 dist
 .git
 .env*
+client_secret*.json
+screenshots-raw

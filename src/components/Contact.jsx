@@ -1,19 +1,16 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import emailjs from '@emailjs/browser';
 import { styles } from '../styles';
 import { SectionWrapper } from '../hoc';
 import { slideIn } from '../utils/motion';
 import { send, sendHover } from '../assets';
 
+const emptyForm = { name: '', email: '', message: '', website: '' };
+
 const Contact = () => {
-  const formRef = useRef();
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+  const [form, setForm] = useState(emptyForm);
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(null); // { type: 'success' | 'error', text }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,41 +18,27 @@ const Contact = () => {
     setForm({ ...form, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setStatus(null);
 
-    // sign up on emailjs.com (select the gmail service and connect your account).
-    //click on create a new template then click on save.
-    emailjs
-      .send(
-        'service_ryvny4s', // paste your ServiceID here (you'll get one when your service is created).
-        'template_vteml1o', // paste your TemplateID here (you'll find it under email templates).
-        {
-          from_name: form.name,
-          to_name: 'dragonccm', // put your name here.
-          from_email: form.email,
-          to_email: 'nguyencongthang1541@gmail.com', //put your email here.
-          message: form.message,
-        },
-       'yLXgFNqhf6AgYLp7u' //paste your Public Key here. You'll get it in your profile section.
-      )
-      .then(
-        () => {
-          setLoading(false);
-          alert('Thank you. I will get back to you as soon as possible.');
-          setForm({
-            name: '',
-            email: '',
-            message: '',
-          });
-        },
-        (error) => {
-          setLoading(false);
-          console.log(error);
-          alert('Something went wrong. Please try again.');
-        }
-      );
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
+
+      setStatus({ type: 'success', text: 'Thank you! I will get back to you as soon as possible.' });
+      setForm(emptyForm);
+    } catch (error) {
+      setStatus({ type: 'error', text: error.message });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -69,7 +52,6 @@ const Contact = () => {
         <h3 className={styles.sectionHeadTextLight}>Contact.</h3>
 
         <form
-          ref={formRef}
           onSubmit={handleSubmit}
           className="mt-10 flex flex-col gap-6 font-poppins">
           <label className="flex flex-col">
@@ -77,6 +59,9 @@ const Contact = () => {
             <input
               type="text"
               name="name"
+              required
+              maxLength={100}
+              autoComplete="name"
               value={form.name}
               onChange={handleChange}
               placeholder="What's your name?"
@@ -91,6 +76,9 @@ const Contact = () => {
             <input
               type="email"
               name="email"
+              required
+              maxLength={200}
+              autoComplete="email"
               value={form.email}
               onChange={handleChange}
               placeholder="What's your email?"
@@ -107,6 +95,8 @@ const Contact = () => {
             <textarea
               rows="7"
               name="message"
+              required
+              maxLength={5000}
               value={form.message}
               onChange={handleChange}
               placeholder="What's your message?"
@@ -117,15 +107,38 @@ const Contact = () => {
             />
           </label>
 
+          {/* Honeypot: hidden from people, filled by spam bots */}
+          <input
+            type="text"
+            name="website"
+            value={form.website}
+            onChange={handleChange}
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="hidden"
+          />
+
+          <p
+            role="status"
+            aria-live="polite"
+            className={`text-[14px] min-h-[20px] ${
+              status?.type === 'error' ? 'text-red-400' : 'text-timberWolf'
+            }`}>
+            {status?.text}
+          </p>
+
           <button
             type="submit"
+            disabled={loading}
             className="live-demo flex justify-center sm:gap-4 
             gap-3 sm:text-[20px] text-[16px] text-timberWolf 
             font-bold font-beckman items-center py-5
             whitespace-nowrap sm:w-[130px] sm:h-[50px] 
             w-[100px] h-[45px] rounded-[10px] bg-night 
             hover:bg-battleGray hover:text-eerieBlack 
-            transition duration-[0.2s] ease-in-out"
+            transition duration-[0.2s] ease-in-out
+            disabled:opacity-60 disabled:cursor-wait"
             onMouseOver={() => {
               document
                 .querySelector('.contact-btn')

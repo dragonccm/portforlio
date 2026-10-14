@@ -34,14 +34,14 @@ const Navbar = () => {
             className="sm:w-[90px] sm:h-[90px] w-[85px] h-[85px] -ml-[0.6rem] object-contain"
           />
         </Link>
-        <ul className="list-none hidden sm:flex flex-row gap-14 mt-2">
+        <ul className="list-none hidden lg:flex flex-row xl:gap-14 gap-10 mt-2">
           {navLinks.map((nav) => (
             <li
               key={nav.id}
               className={`${
                 active === nav.title ? 'text-french' : 'text-eerieBlack'
-              } hover:text-taupe text-[21px] font-medium font-mova 
-                uppercase tracking-[3px] cursor-pointer nav-links`}
+              } hover:text-taupe xl:text-[21px] text-[18px] font-medium font-mova 
+                uppercase tracking-[3px] cursor-pointer nav-links whitespace-nowrap`}
               onClick={() => setActive(nav.title)}>
               <a href={`#${nav.id}`}>{nav.title}</a>
             </li>
@@ -49,7 +49,7 @@ const Navbar = () => {
         </ul>
 
         {/* mobile */}
-        <div className="sm:hidden flex flex-1 w-screen justify-end items-center">
+        <div className="lg:hidden flex flex-1 justify-end items-center">
           {toggle ? (
             <div
               className={`p-6 bg-flashWhite opacity-[0.98] absolute 
@@ -66,14 +66,13 @@ const Navbar = () => {
               </div>
               <ul
                 className="list-none flex flex-col -gap-[1rem] 
-                items-start justify-end mt-[10rem] -ml-[35px]">
+                items-start justify-end mt-[10rem]">
                 {navLinks.map((nav) => (
                   <li
-                    id={nav.id}
                     key={nav.id}
                     className={`${
                       active === nav.title ? 'text-french' : 'text-eerieBlack'
-                    } text-[88px] font-bold font-arenq 
+                    } text-[clamp(36px,11vw,72px)] leading-[1.15] font-bold font-arenq 
                       uppercase tracking-[1px] cursor-pointer`}
                     onClick={() => {
                       setToggle(!toggle);

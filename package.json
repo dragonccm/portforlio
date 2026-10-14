@@ -7,10 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node --env-file-if-exists=.env.local server/index.mjs"
   },
   "dependencies": {
-    "@emailjs/browser": "^3.11.0",
     "@react-three/drei": "^9.66.1",
     "@react-three/fiber": "^8.13.0",
     "framer-motion": "^10.12.5",
